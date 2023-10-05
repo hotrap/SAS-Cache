@@ -224,7 +224,7 @@ struct MutableCFOptions {
     RefreshDerivedOptions(ioptions.num_levels, ioptions.compaction_style);
   }
 
-  int MaxBytesMultiplerAdditional(int level) const {
+  double MaxBytesMultiplerAdditional(int level) const {
     if (level >=
         static_cast<int>(max_bytes_for_level_multiplier_additional.size())) {
       return 1;
@@ -275,7 +275,7 @@ struct MutableCFOptions {
   double max_bytes_for_level_multiplier;
   uint64_t ttl;
   uint64_t periodic_compaction_seconds;
-  std::vector<int> max_bytes_for_level_multiplier_additional;
+  std::vector<double> max_bytes_for_level_multiplier_additional;
   CompactionOptionsFIFO compaction_options_fifo;
   CompactionOptionsUniversal compaction_options_universal;
 
