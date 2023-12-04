@@ -319,6 +319,8 @@ const std::string DB::Properties::kCompressionRatioAtLevelPrefix =
 const std::string DB::Properties::kStats = rocksdb_prefix + allstats;
 const std::string DB::Properties::kCompactionStats =
     rocksdb_prefix + compactions;
+const std::string DB::Properties::kCompactionCPUMicros =
+    rocksdb_prefix + compactions + ".cpu.micros";
 const std::string DB::Properties::kSSTables = rocksdb_prefix + sstables;
 const std::string DB::Properties::kCFStats = rocksdb_prefix + cfstats;
 const std::string DB::Properties::kCFStatsNoFileHistogram =
@@ -436,6 +438,9 @@ const UnorderedMap<std::string, DBPropertyInfo>
          {false, &InternalStats::HandleStats, nullptr, nullptr, nullptr}},
         {DB::Properties::kCompactionStats,
          {false, &InternalStats::HandleCompactionStats, nullptr, nullptr,
+          nullptr}},
+        {DB::Properties::kCompactionCPUMicros,
+         {false, nullptr, &InternalStats::HandleCompactionCPUMicros, nullptr,
           nullptr}},
         {DB::Properties::kCFStats,
          {false, &InternalStats::HandleCFStats, nullptr,
@@ -1030,6 +1035,15 @@ bool InternalStats::HandleCompactionStats(std::string* value, Slice suffix) {
     value->append("L" + std::to_string(level) + " " +
                   std::to_string(levels[level].read) + " " +
                   std::to_string(levels[level].write) + '\n');
+  }
+  return true;
+}
+
+bool InternalStats::HandleCompactionCPUMicros(uint64_t* value, DBImpl* /*db*/,
+                                              Version* /*version*/) {
+  *value = 0;
+  for (int level = 0; level < number_levels_; ++level) {
+    *value += comp_stats_[level].cpu_micros;
   }
   return true;
 }
