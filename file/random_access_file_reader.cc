@@ -165,6 +165,7 @@ IOStatus RandomAccessFileReader::Read(
         }
       }
       *result = Slice(scratch, res_len);
+      IOSTATS_ADD(rand_read_bytes, read_size);
 #endif  // !ROCKSDB_LITE
     } else {
       size_t pos = 0;
