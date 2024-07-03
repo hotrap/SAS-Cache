@@ -204,7 +204,7 @@ class RocksCachelibWrapper : public rocksdb::SecondaryCache {
             }
 
             std::unique_ptr<FbCache> cache = std::make_unique<FbCache>(config);
-            pool_ = cache->addPool("default", cache->getCacheMemoryStats().cacheSize);
+            pool_ = cache->addPool("default", cache->getCacheMemoryStats().ramCacheSize);
             cache_ = std::move(cache).release();
         }
   ~RocksCachelibWrapper() override;
