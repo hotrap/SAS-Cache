@@ -110,3 +110,15 @@ class SecondaryCache : public Customizable {
 };
 
 }  // namespace ROCKSDB_NAMESPACE
+
+namespace facebook {
+namespace rocks_secondary_cache {
+
+// Allocate a new Cache instance with a rocksdb::TieredCache wrapper around it
+extern std::shared_ptr<rocksdb::SecondaryCache> NewRocksCachelibWrapper(
+  const std::string &dir, unsigned long flash_cache_size,
+  bool enable_cache_filter, bool enable_admission_queue, bool enable_replacement
+);
+
+}
+}

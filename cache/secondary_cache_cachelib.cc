@@ -312,12 +312,13 @@ void RocksCachelibWrapper::Close() {
 }
 
 // Global cache object and a default cache pool
-std::shared_ptr<rocksdb::SecondaryCache> NewRocksCachelibWrapper(unsigned long flash_cache_size, bool enable_cache_filter, bool enable_admission_queue, bool enable_replacement) {
-
-  std::string NavyFileNameBase = "/nvme/cachelib/NavyStorage";
+std::shared_ptr<rocksdb::SecondaryCache> NewRocksCachelibWrapper(
+  const std::string &dir, unsigned long flash_cache_size,
+  bool enable_cache_filter, bool enable_admission_queue, bool enable_replacement
+) {
   srand(time(nullptr));
   int random_number = rand() % (1000 - 1 + 1) + 1;
-  std::string NavyFileName = NavyFileNameBase + std::to_string(random_number);
+  std::string NavyFileName = dir + std::to_string(random_number);
 
   RocksCachelibOptions opts;
   opts.cacheName = "SecondaryCacheCachelib";

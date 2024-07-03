@@ -252,7 +252,5 @@ class RocksCachelibWrapper : public rocksdb::SecondaryCache {
   AdmissionQueue* admissionQueue_;
 };
 
-// Allocate a new Cache instance with a rocksdb::TieredCache wrapper around it
-extern std::shared_ptr<rocksdb::SecondaryCache> NewRocksCachelibWrapper(unsigned long flash_cache_size, bool enable_cache_filter, bool enable_admission_queue, bool enable_replacement);
 } // namespace rocks_secondary_cache
 } // namespace facebook
