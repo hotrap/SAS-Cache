@@ -27,7 +27,6 @@ Status FilterBlockReaderCommon<TBlocklike>::ReadFilterBlock(
   const BlockBasedTable::Rep* const rep = table->get_rep();
   assert(rep);
 
-  std::cout << "hello" << std::endl;
   const Status s =
       table->RetrieveBlock(prefetch_buffer, read_options, rep->filter_handle,
                            UncompressionDict::GetEmptyDict(), filter_block,

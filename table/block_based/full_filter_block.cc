@@ -186,14 +186,12 @@ bool FullFilterBlockReader::MayMatch(
     IGNORE_STATUS_IF_ERROR(s);
     return true;
   }
-  std::cout << filter_block.GetValue() << std::endl;
 
   assert(filter_block.GetValue());
 
   FilterBitsReader* const filter_bits_reader =
       filter_block.GetValue()->filter_bits_reader();
 
-  std::cout << filter_bits_reader << std::endl;
 
   if (filter_bits_reader) {
     if (filter_bits_reader->MayMatch(entry)) {
