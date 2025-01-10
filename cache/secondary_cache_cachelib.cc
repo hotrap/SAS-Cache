@@ -25,8 +25,6 @@
 
 namespace facebook::rocks_secondary_cache {
 
-#define FB_CACHE_MAX_ITEM_SIZE 4 << 20
-
 namespace {
 // We use a separate RCU domain since read side critical sections can block
 // on IO, and we don't want to interfere with other system activities that
@@ -161,7 +159,8 @@ rocksdb::Status RocksCachelibWrapper::Insert(
 
   if (cache) {
     size = (*helper->size_cb)(value);
-    if (FbCacheItem::getRequiredSize(k, size) <= FB_CACHE_MAX_ITEM_SIZE) {
+    if (FbCacheItem::getRequiredSize(k, size) <=
+        cache->getPool(pool_).getAllocSizes().back()) {
       auto handle = cache->allocate(pool_, k, size);
       if (handle) {
         char* buf = static_cast<char*>(handle->getMemory());
